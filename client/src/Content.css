@@ -1,0 +1,39 @@
+ul {
+    margin-top: 0;
+}
+
+button {
+    animation-name: buttonUp;
+    animation-duration: 1s;
+}
+
+button:hover {
+    background-color:#f5f5f5;
+}
+
+@keyframes buttonUp {
+    from {
+        width: 100px;
+        height: 20px;
+        font-size: 12px;
+    }
+    to {
+        width: 300px;
+        height: 100px;
+        font-size: 48px;
+    }
+}
+
+p {
+    animation-name: pUp;
+    animation-duration: 1s;
+}
+
+@keyframes pUp {
+    from {
+        font-size: 24px;
+    }
+    to {
+        font-size: 96px;
+    }
+}
