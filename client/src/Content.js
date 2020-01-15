@@ -1,5 +1,4 @@
 import React, {Component} from 'react';
-import SpotifyWebApi from 'spotify-web-api-js';
 import './Content.css';
 import AlbumCard from "./AlbumCard";
 import styled from 'styled-components';
@@ -39,67 +38,13 @@ class Content extends Component {
     async componentDidMount() {
         console.log('here for fhtis');
 
-        // UPDATED: DO NOT CHANGE
-        const clientId = '5e6daaf9d8084828ada0e00f18aa3778';
-        const clientSecret = 'daf60cb9e55541adb8e1a9393e6b6da3';
-        //
-        const spotify = new SpotifyWebApi({
-            clientId,
-            clientSecret
-        });
-
-        const authString = new Buffer(
-            clientId + ':' + clientSecret
-        ).toString('base64');
 
 
-        // this literally works in postman what the fuck
-        const res = await fetch("https://accounts.spotify.com/api/token", {
-            method: "POST",
-            // params: {
-            //     grant_type: 'client_credentials'
-            // },
-            body: 'grant_type=client_credentials',
-            mode: 'no-cors',
-            headers: {
-                Authorization: "Basic BQCrKHD3xJCUHGok7Z56Woo-Eho5DcmwwyPr2RsBMLeVcny1IP1wjhp2lZ85WNfvnQeqq0SRA4gY0_EIT3k=",
-                "Content-Type": "application/x-www-form-url-encoded",
-                "Accept": "application/json"
-            }
-        });
-
-        // console.log(JSON.stringify(res, null, 2));
-
-        spotify.setAccessToken('BQDIf05ryAnj-pd8vtuahsM86JmMKEh6_r0P7kU7sgJly6XQNmeLyv-XdERAN6nRMRZWm2w_iZF2GQXMqL0');
-
-        const crxAlbums = await spotify.getArtistAlbums('5INjqkS1o8h1imAzPqGZBb');
-
-        const topTracks = await spotify.getArtistTopTracks('5INjqkS1o8h1imAzPqGZBb', 'US');
-
-        // console.log(JSON.stringify(topTracks, null, 2));
-
-
-        // console.log(JSON.stringify(crxAlbums, null, 2));
-        topTracks.tracks.map(async (track) => {
-            const features = await spotify.getAudioFeaturesForTrack(track.id);
-            console.log(track.name);
-            console.log(JSON.stringify(features, null, 2));
-        });
-
-        const features = await spotify.getAudioFeaturesForTrack(topTracks.tracks[0].id);
-        console.log(JSON.stringify(features, null, 2));
 
         // add images to props
         // console.log(JSON.stringify(crxAlbums.items[0].images[0], null, 2));
 
         const albums = [];
-
-        crxAlbums.items.map((album) => {
-            // console.log(JSON.stringify(album.images[0].url, null, 2))
-            if (album.total_tracks >= 1) {
-                albums.push(album);
-            }
-        });
 
         this.setState({
             testAlbums: albums

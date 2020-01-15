@@ -10,22 +10,41 @@ const MainApp = styled.div`
     width: 100%;
 `;
 
-
 class App extends React.Component {
     state = {
+        loggedIn: false,
         response: '',
         post: '',
         responseToPost: '',
     };
 
-    componentDidMount() {
-        this.callApi()
-            .then(res => this.setState({ response: res.express }))
-            .catch(err => console.log(err));
+    async componentDidMount() {
+
+
+        const url = await this.getAuthUrl();
+        console.log(url);
+        //
+        // this.getToken()
+        //     .then(res => this.setState({ response: res.express }))
+        //     .catch(err => console.log(err));
+        //
+        // const tokenRes = await this.getToken();
+        // this.setState({ response: tokenRes.express });
+        //
+        // const topTracks = await this.getTopTracks();
+
     }
 
-    callApi = async () => {
-        const response = await fetch('/api/spottoken');
+    getAuthUrl = async () => {
+        const response = await fetch('/api/login');
+        const body = await response.json();
+        if (response.status !== 200) throw Error(body.message);
+        console.log('succ');
+        return body;
+    };
+
+    getToken = async () => {
+        const response = await fetch('/api/token');
         const body = await response.json();
         if (response.status !== 200) throw Error(body.message);
         console.log("ducc");
@@ -33,6 +52,17 @@ class App extends React.Component {
         return body;
     };
 
+    getTopTracks = async () => {
+        const response = await fetch('/api/toptracks/0epOFNiUfyON9EYx7Tpr6V');
+        const body = await response.json();
+        if (response.status !== 200) throw Error(body.message);
+        console.log('gottem');
+        console.log(body);
+
+        return body;
+    };
+
+    // redirect based on state of logged in
     render() {
         return (
             <MainApp className="App">
