@@ -1,5 +1,5 @@
 import React, {Component} from 'react';
-import './AlbumCard.css';
+import '../styles/AlbumCard.css';
 import styled from 'styled-components';
 
 

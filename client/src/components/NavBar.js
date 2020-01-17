@@ -1,6 +1,6 @@
 import React, {Component} from 'react';
-import './NavBar.css';
-import request from 'request';
+import '../styles/NavBar.css';
+
 
 
 import styled from 'styled-components';
@@ -24,13 +24,16 @@ const NavLink = styled.a`
 
 
 class NavBar extends Component {
+
     render () {
+
+        const {url} = this.props;
         return (
             <>
                 <List>
                     <ListItem><NavLink href='#'>{"Home"}</NavLink></ListItem>
                     <ListItem><NavLink href='#'>{"About"}</NavLink></ListItem>
-                    <ListItem><NavLink href='#'>{"Sign In"}</NavLink></ListItem>
+                    <ListItem><NavLink href={url}>{"Sign In"}</NavLink></ListItem>
                 </List>
             </>
         );
