@@ -10,6 +10,15 @@ export const getAuthUrl = async () => {
     return body;
 };
 
+
+// need to make a proper post request
+export const sendTokenAndAuthenticate = async () => {
+    const response = await fetch('/api/authenticate');
+    const body = await response.json();
+    if (response.status !== 200) throw Error(body.message);
+    return body;
+};
+
 export const getToken = async () => {
     const response = await fetch('/api/token');
     const body = await response.json();

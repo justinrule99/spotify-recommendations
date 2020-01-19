@@ -22,6 +22,7 @@ const NavLink = styled.a`
     text-decoration: none;
 `;
 
+// on click of sign in, modify state?
 
 class NavBar extends Component {
 

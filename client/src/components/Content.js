@@ -44,7 +44,8 @@ class Content extends Component {
         // add images to props
         // console.log(JSON.stringify(crxAlbums.items[0].images[0], null, 2));
 
-        let albums = getTopTracks('3l0CmX0FuQjFxr8SK7Vqag');
+        // let albums = getTopTracks('3l0CmX0FuQjFxr8SK7Vqag');
+        let albums = [];
 
 
         this.setState({
@@ -65,7 +66,7 @@ class Content extends Component {
                     <label>
                         <input type="text" name="name" />
                     </label>
-                    <input type="submit" value="Submit" />
+                    <input type="submit" value="Get Data" />
                 </form>
 
                 <CardContainer>
