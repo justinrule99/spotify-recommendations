@@ -16,6 +16,7 @@ const spotify = new SpotifyWebApi({
 
 const lSpotify = new SpotifyWebApi({
     clientId: '5e6daaf9d8084828ada0e00f18aa3778',
+    clientSecret: 'daf60cb9e55541adb8e1a9393e6b6da3',
     redirectUri: 'http://localhost:3000'
 
 });
@@ -40,7 +41,7 @@ app.get('/api/token', async (req, res) => {
 app.get('/api/toptracks/:artist', async (req, res) => {
     let topTracks;
     try {
-        topTracks = await spotify.getArtistTopTracks(req.params.artist, 'US');
+        topTracks = await lSpotify.getArtistTopTracks(req.params.artist, 'US');
         return res.json(topTracks);
     } catch (error) {
         console.log("Error getting top tracks");
@@ -48,10 +49,33 @@ app.get('/api/toptracks/:artist', async (req, res) => {
 
 });
 
+app.get('/api/getme', async (req, res) => {
+    let user;
+
+    try {
+        user = await lSpotify.getMe();
+        return res.json(user);
+    } catch (error) {
+        console.log(error);
+    }
+
+});
+
+app.get('/api/getplaylists/:userId', async (req, res) => {
+
+    let playlists;
+    try {
+        playlists = await lSpotify.getUserPlaylists(req.params.userId);
+        return res.json(playlists);
+    } catch (error) {
+        res.send('error');
+    }
+});
+
 // url to redirect to for login
 app.get('/api/login', async (req, res) => {
 
-    const scopes = ['user-read-private', 'user-read-recently-played', 'user-read-email'];
+    const scopes = ['user-read-private', 'user-read-recently-played', 'user-read-email', 'user-top-read'];
     const state = 'state';
 
     const authUrl = lSpotify.createAuthorizeURL(scopes, state, true);
@@ -60,27 +84,21 @@ app.get('/api/login', async (req, res) => {
 });
 
 app.post('/api/authenticate', async (req, res) => {
-    // expecting a code as req.body
-    console.log(req.body);
-    // res.send(
-    //     `I received your POST request. This is what you sent me: ${req.body.post}`,
-    // );
+    console.log('code:');
+    console.log(req.body.code);
 
     try {
-        const response = await lSpotify.authorizationCodeGrant(req.body);
+        const response = await lSpotify.authorizationCodeGrant(req.body.code);
+
+        console.log(response);
         lSpotify.setAccessToken(response.body['access_token']);
         lSpotify.setRefreshToken(response.body['refresh_token']);
 
-        return res.json(lSpotify.getAccessToken());
+        return res.json(response.body);
     } catch (error){
-        res.send('there was an erry');
+        res.send('uh oh there was an erry');
     }
-
-
-
 });
 
-
-// code: AQAdPk4AiSec-EJ81Nv6twxbWGwWJzUDkHpjAKAUkUojZvotpbfyS0bFmxb-mciqE-T36DLtxfNq30y9Zlitu7s-oUd9JVK9wxIVwEiaZQg9tSv35Jlg0tjMA1YQjLruBptestZCvIOKdiU5pjORyswc8vHxN7AbfEo6bjTk6CDSeSZ8IAkroy7U0DkGJvrVGs1tW5xAHM3rcUJQAP_6au-zRGjTPiRszoJOF9peVZG0kjYK2Fd8Xwt5XUsbhAt10sEpPOgCsnn_XQ
 
 app.listen(port, () => console.log(`Listening on port ${port}`));

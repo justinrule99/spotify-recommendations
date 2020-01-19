@@ -26,15 +26,23 @@ const NavLink = styled.a`
 
 class NavBar extends Component {
 
+
+    async componentDidMount() {
+    }
+
     render () {
+        const {name} = this.props;
+        const {loggedIn} = this.props;
 
         const {url} = this.props;
+        const buttonText = loggedIn ? name : "Sign In";
+
         return (
             <>
                 <List>
                     <ListItem><NavLink href='#'>{"Home"}</NavLink></ListItem>
                     <ListItem><NavLink href='#'>{"About"}</NavLink></ListItem>
-                    <ListItem><NavLink href={url}>{"Sign In"}</NavLink></ListItem>
+                    <ListItem><NavLink href={url}>{buttonText}</NavLink></ListItem>
                 </List>
             </>
         );

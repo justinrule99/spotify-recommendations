@@ -3,7 +3,7 @@ import '../styles/App.css';
 import NavBar from "./NavBar";
 import Content from "./Content";
 import styled from 'styled-components';
-import {getAuthUrl, sendTokenAndAuthenticate} from "../util/spotify-utils";
+import {getAuthUrl, getMe, getTopTracks, getUserPlaylists, sendTokenAndAuthenticate} from "../util/spotify-utils";
 
 const MainApp = styled.div`
     background: rgb(2,0,36);
@@ -16,6 +16,8 @@ class App extends React.Component {
     state = {
         loggedIn: false,
         url: '',
+        name: '',
+        playlists: []
     };
 
     async componentDidMount() {
@@ -35,9 +37,35 @@ class App extends React.Component {
         console.log("oce: ");
         console.log(code);
 
-        if (code !== '') {
+        if (!this.state.loggedIn) {
             // do post request for token
-            const token = await sendTokenAndAuthenticate();
+            console.log('doing auth');
+
+            try {
+                const token = await sendTokenAndAuthenticate(code);
+                this.setState({loggedIn: true});
+                console.log('L;KDJSASD;KJF');
+                // console.log('token from component: ', JSON.stringify(token, null, 2));
+            } catch (error) {
+                console.log(error);
+            }
+        }
+
+        if (this.state.loggedIn) {
+            const tracks = await getTopTracks('4NfVXEoTZVX7rpJSZEVGLg');
+            console.log('TACKS: ');
+            console.log(tracks);
+
+            const me = await getMe();
+            console.log(JSON.stringify(me, null, 2));
+            this.setState({name: me.body['display_name']});
+
+            // get user playlists
+            const myPlaylists = await getUserPlaylists(me.body.id);
+            console.log('PLAYSLI');
+            console.log(myPlaylists);
+            this.setState({playlists: myPlaylists.body.items});
+
         }
 
 
@@ -53,8 +81,8 @@ class App extends React.Component {
         return (
             <>
                 <MainApp className="App">
-                    <NavBar url={this.state.url}/>
-                    <Content />
+                    <NavBar url={this.state.url} loggedIn={this.state.loggedIn} name={this.state.name} />
+                    <Content playlists={this.state.playlists}/>
                 </MainApp>
             </>
         );

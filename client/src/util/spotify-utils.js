@@ -2,6 +2,15 @@
 
 // basic utils for interacting with the node layer
 
+// generic get request builder
+const getFromApi = async (route) => {
+    const response = await fetch(route);
+    const body = await response.json();
+    if (response.status !== 200) throw Error(body.message);
+    return body;
+};
+
+
 export const getAuthUrl = async () => {
     const response = await fetch('/api/login');
     const body = await response.json();
@@ -12,10 +21,24 @@ export const getAuthUrl = async () => {
 
 
 // need to make a proper post request
-export const sendTokenAndAuthenticate = async () => {
-    const response = await fetch('/api/authenticate');
+export const sendTokenAndAuthenticate = async (code) => {
+    console.log('code to send: ', code);
+    const codeObj = {
+        code: code
+    };
+
+    const response = await fetch('/api/authenticate', {
+        method: 'POST',
+        body: JSON.stringify(codeObj),
+        headers: {
+            'Content-Type': 'application/json'
+        }
+    });
     const body = await response.json();
-    if (response.status !== 200) throw Error(body.message);
+    console.log(response.status);
+    console.log('body: ', body);
+
+    if (response.status === 500) throw Error(body.message);
     return body;
 };
 
@@ -36,3 +59,12 @@ export const getTopTracks = async (artistId) => {
 
     return body;
 };
+
+export const getMe = async () => {
+    return getFromApi('/api/getme');
+};
+
+export const getUserPlaylists = async (userId) => {
+    return getFromApi(`/api/getplaylists/${userId}`);
+};
+

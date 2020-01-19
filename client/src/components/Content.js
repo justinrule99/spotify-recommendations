@@ -57,25 +57,19 @@ class Content extends Component {
     }
 
     render () {
+        const {playlists} = this.props;
+
 
         return (
             <>
                 <BigText>{"Improve Your Listening Experience"}</BigText>
 
-                <form>
-                    <label>
-                        <input type="text" name="name" />
-                    </label>
-                    <input type="submit" value="Get Data" />
-                </form>
 
                 <CardContainer>
-                    {this.state.testAlbums.map((album) => (
-                        <AlbumCard album={album} key={album.id} />
+                    {playlists.map((playlist) => (
+                        <AlbumCard album={playlist} key={playlist.id} />
                     ))}
                 </CardContainer>
-
-
             </>
         );
     }
