@@ -33,13 +33,7 @@ class Content extends Component {
         signedIn: false
     };
 
-    // should we fetch in App.js?
-    // where to authenticate with spotify?
-    // should do all server side in node layer (separate project)
     async componentDidMount() {
-
-
-
 
         // add images to props
         // console.log(JSON.stringify(crxAlbums.items[0].images[0], null, 2));
@@ -51,8 +45,6 @@ class Content extends Component {
         this.setState({
             testAlbums: albums
         });
-
-
 
     }
 
