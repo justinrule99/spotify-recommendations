@@ -68,3 +68,7 @@ export const getUserPlaylists = async (userId) => {
     return getFromApi(`/api/getplaylists/${userId}`);
 };
 
+export const getPlaylistTracks = async (playlistId) => {
+    return getFromApi(`/api/getplaylisttracks/${playlistId}`);
+};
+

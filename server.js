@@ -72,6 +72,20 @@ app.get('/api/getplaylists/:userId', async (req, res) => {
     }
 });
 
+app.get('/api/getplaylisttracks/:playlistId', async (req, res) => {
+
+    let tracks;
+    try {
+        tracks = await lSpotify.getPlaylistTracks(req.params.playlistId, {
+            limit: 100
+        });
+        return res.json(tracks);
+    } catch (error) {
+        res.send('error');
+    }
+
+});
+
 // url to redirect to for login
 app.get('/api/login', async (req, res) => {
 
