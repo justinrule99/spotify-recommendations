@@ -6,6 +6,7 @@
 const getFromApi = async (route) => {
     const response = await fetch(route);
     const body = await response.json();
+    console.log("status::"+response.status);
     if (response.status !== 200) throw Error(body.message);
     return body;
 };

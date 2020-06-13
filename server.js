@@ -18,7 +18,6 @@ const lSpotify = new SpotifyWebApi({
     clientId: '5e6daaf9d8084828ada0e00f18aa3778',
     clientSecret: 'daf60cb9e55541adb8e1a9393e6b6da3',
     redirectUri: 'http://localhost:3000'
-
 });
 
 
@@ -32,7 +31,7 @@ app.get('/api/token', async (req, res) => {
         spotify.setAccessToken(response.body['access_token']);
         console.log("at: "+spotify.getAccessToken());
 
-        res.json(spotify.getAccessToken());
+        await res.json(spotify.getAccessToken());
     } catch (error) {
         console.log("Something went wrong with getting an access token", error);
     }
@@ -57,6 +56,7 @@ app.get('/api/getme', async (req, res) => {
         return res.json(user);
     } catch (error) {
         console.log(error);
+        return res.json(error);
     }
 
 });
@@ -83,6 +83,9 @@ app.get('/api/getplaylisttracks/:playlistId', async (req, res) => {
     } catch (error) {
         res.send('error');
     }
+});
+
+app.get('/api/getaudiofeatures/', async (req, res) => {
 
 });
 

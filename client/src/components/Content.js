@@ -29,6 +29,8 @@ class Content extends Component {
 
     }
 
+    // onclick of albumCard, launch modal
+
     render () {
         const {playlists} = this.props;
 

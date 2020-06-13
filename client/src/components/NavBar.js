@@ -22,11 +22,9 @@ const NavLink = styled.a`
     text-decoration: none;
 `;
 
-// on click of sign in, modify state?
-
 class NavBar extends Component {
 
-
+C
     async componentDidMount() {
     }
 
@@ -41,7 +39,8 @@ class NavBar extends Component {
             <>
                 <List>
                     <ListItem><NavLink href='#'>{"Home"}</NavLink></ListItem>
-                    <ListItem><NavLink href='#'>{"About"}</NavLink></ListItem>
+                    <ListItem><NavLink href='#'>{"Stats"}</NavLink></ListItem>
+                    <ListItem><NavLink href='#'>{"Player"}</NavLink></ListItem>
                     <ListItem><NavLink href={url}>{buttonText}</NavLink></ListItem>
                 </List>
             </>
